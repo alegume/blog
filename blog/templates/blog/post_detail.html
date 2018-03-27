@@ -2,9 +2,20 @@
 
 {% block content %}
     <div class="post">
+        <a class="btn btn-default" href="{% url 'post_edit' pk=post.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
+        <a class="btn btn-warning" href="{% url 'post_delete' pk=post.pk %}"><span class="glyphicon glyphicon-trash"></span></a>
         <h1><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h1>
         <div class="date">
-            <p>published: {{ post.published_date }} | Visitado {{ post.visits }} vezes</p>
+            <p>
+            {% if post.published_date %}
+                published: {{ post.published_date }} |
+            {% else %}
+                <a class="btn btn-default" href="{% url 'post_publish' pk=post.pk %}">Publicar</a>
+            {% endif %}
+            </p>
+            <p>
+            Visitado {{ post.visits }} vezes
+            </p>
         </div>
         <p>{{ post.text|linebreaksbr }}</p>
     </div>
