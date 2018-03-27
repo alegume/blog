@@ -2,8 +2,7 @@
 
 {% block content %}
     <div class="post">
-        <a class="btn btn-default" href="{% url 'post_edit' pk=post.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
-        <a class="btn btn-warning" href="{% url 'post_delete' pk=post.pk %}"><span class="glyphicon glyphicon-trash"></span></a>
+        
         <h1><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h1>
         <div class="date">
             <p>
@@ -12,11 +11,28 @@
             {% else %}
                 <a class="btn btn-default" href="{% url 'post_publish' pk=post.pk %}">Publicar</a>
             {% endif %}
+
+            &nbsp; &nbsp;
+            <a class="btn btn-default" href="{% url 'post_edit' pk=post.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
+
+            <a class="btn btn-warning" href="{% url 'post_delete' pk=post.pk %}"><span class="glyphicon glyphicon-trash"></span></a>
             </p>
+            <br />
             <p>
             Visitado {{ post.visits }} vezes
             </p>
         </div>
         <p>{{ post.text|linebreaksbr }}</p>
     </div>
+    <hr>
+    <a class="btn btn-default" href="{% url 'add_comment_to_post' pk=post.pk %}">Comentar!</a>
+    {% for comment in post.comments.all %}
+        <div class="comment">
+            <div class="date">{{ comment.created_date }}</div>
+            <strong>{{ comment.author }}</strong>
+            <p>{{ comment.text|linebreaks }}</p>
+        </div>
+    {% empty %}
+        <p>Sem coment&aacute;rios... Tsc, tsc :(</p>
+    {% endfor %}
 {% endblock %}
