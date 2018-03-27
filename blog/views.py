@@ -74,13 +74,14 @@ def post_publish(request, pk):
     post.publish()
     return redirect('post_detail', pk=post.pk)
 
-@login_required
 def add_comment_to_post(request, pk):
     post = get_object_or_404(Post, pk=pk)
     if request.method == "POST":
         form = CommentForm(request.POST)
         if form.is_valid():
             comment = form.save(commit=False)
+            if request.user.is_authenticated():
+                comment.author = request.user.username
             comment.post = post
             comment.save()
             return redirect('post_detail', pk=post.pk)
