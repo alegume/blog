@@ -28,8 +28,8 @@ DEBUG = True
 ALLOWED_HOSTS = ['127.0.0.1', '.pythonanywhere.com']
 
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'alexandregrandeabreu@gmail.com' 
-EMAIL_HOST_PASSWORD = 'Arvrqnobziuzmiub'
+EMAIL_HOST_USER = 'alexandre-grande-abreu@gmail.com' 
+EMAIL_HOST_PASSWORD = 'arvrqnobziuzmiub'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
