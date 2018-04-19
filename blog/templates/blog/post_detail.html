@@ -24,7 +24,12 @@
         </div>
         <p>{{ post.text|linebreaksbr }}</p>
     </div>
-
+    <div class="date">
+    Tags: 
+    {% for tag in post.tags.all %}
+        <a href=" {% url 'post_tag_list' pk=tag.pk %} "> {{ tag }} </a>&nbsp;
+    {% endfor %}
+    </div>
     <hr>
     <a class="btn btn-default" href="{% url 'add_comment_to_post' pk=post.pk %}">Comentar!</a>
     

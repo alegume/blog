@@ -2,14 +2,10 @@ from django.db import models
 
 from django.utils import timezone
 
-class Tag(models.Model):
-    nome = models.CharField(max_length=50)
-
-    def __str__(self):
-        return self.nome
 
 class Post(models.Model):
     author = models.ForeignKey('auth.User', on_delete=models.CASCADE)
+    # contribs = models.ManyToManyField('auth.User')
     title = models.CharField(max_length=200)
     text = models.TextField()
     created_date = models.DateTimeField(
@@ -17,7 +13,7 @@ class Post(models.Model):
     published_date = models.DateTimeField(
             blank=True, null=True)
     visits = models.PositiveIntegerField(default=0)
-    tags = models.ManyToManyField(Tag)
+    tags = models.ManyToManyField('blog.Tag', blank=True)
 
     def publish(self):
         self.published_date = timezone.now()
@@ -43,3 +39,11 @@ class Comment(models.Model):
 
     def __str__(self):
         return self.text
+
+class Tag(models.Model):
+    nome = models.CharField(max_length=50)
+    # editable excludes from auto form/view generate
+    created_date = models.DateTimeField(default=timezone.now, editable=False)
+
+    def __str__(self):
+        return self.nome

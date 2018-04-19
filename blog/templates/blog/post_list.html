@@ -5,7 +5,12 @@
         <div class="post">
             <h1><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h1>
             <div class="date">
-                <p>published: {{ post.published_date }} | Visitado {{ post.visits }} vezes</p>
+                <p>published: {{ post.published_date }} | Visitado {{ post.visits }} vezes 
+                | Tags:
+                    {% for tag in post.tags.all %}
+                        <a href=" {% url 'post_tag_list' pk=tag.pk %} ">{{ tag }}</a>&nbsp;
+                    {% endfor %}
+                </p>
             </div>
             <p>{{ post.text|linebreaksbr }}</p>
             <a href="{% url 'post_detail' pk=post.pk %}">Comments: {{ post.approved_comments.count }}</a>
