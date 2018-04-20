@@ -1,3 +1,17 @@
+.cb {
+  max-width: 20px;
+  padding: 30px;
+}
+
+label {
+    margin-left: 17px;
+}
+
+.tags {
+  margin-top: 15px;
+  margin-bottom: 3px;
+}
+
 .comment {
     margin: 20px 0px 20px 20px;
 }

@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 from django.utils import timezone
 
@@ -21,7 +22,6 @@ class Post(models.Model):
 
     def approved_comments(self):
         return self.comments.filter(approved_comment=True)
-
 
     def __str__(self):
         return self.title
@@ -47,3 +47,11 @@ class Tag(models.Model):
 
     def __str__(self):
         return self.nome
+
+class Reuniao(models.Model):
+    assunto = models.CharField(max_length=50)
+    data = models.DateTimeField(default=timezone.now, blank=True)
+    presenca = models.ManyToManyField(User, blank=True)
+
+    def __str__(self):
+        return self.assunto

@@ -14,5 +14,8 @@ urlpatterns = [
     url(r'^drafts/$', views.post_draft_list, name='post_draft_list'),
     url(r'^contato/$', views.contato, name='contato'),
     url(r'^obg/$', views.obg, name='obg'),
-    url(r'^post/(?P<pk>\d+)/publish/$', views.post_publish, name='post_publish')
+    url(r'^post/(?P<pk>\d+)/publish/$', views.post_publish, name='post_publish'),
+    url(r'^reuniao/(?P<pk>\d+)/presenca/$', views.reuniao_presenca, name='reuniao_presenca'),
+    url(r'^reunioes/$', views.reunioes, name='reunioes'),
+
 ]

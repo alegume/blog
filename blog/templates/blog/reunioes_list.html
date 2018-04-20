@@ -1,0 +1,13 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+    {% for reuniao in reunioes %}
+        <div class="reuniao">
+            <h1><a href="{% url 'reuniao_presenca' pk=reuniao.pk %}">{{ reuniao }}</a></h1>
+            <div class="date">
+                <p>Data: {{ reuniao.data|date:"d/m/y - G\hi" }}
+                </p>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}

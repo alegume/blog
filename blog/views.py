@@ -4,8 +4,8 @@ from django.http import HttpResponseRedirect, Http404, HttpResponseNotFound, Htt
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail, BadHeaderError
-from .models import Post, Comment
-from .forms import PostForm, CommentForm, ContatoForm
+from .models import Post, Comment, Reuniao
+from .forms import PostForm, CommentForm, ContatoForm, ReuniaoForm
 
 # import pdb
 
@@ -130,3 +130,22 @@ def contato(request):
 
 def obg(request):
     return HttpResponse("<h2>Obrigado pela mensagem!!!</h2>")
+
+def reunioes(request):
+    reunioes = Reuniao.objects.all()
+    return render(request, 'blog/reunioes_list.html', {'reunioes': reunioes})
+
+def reuniao_presenca(request, pk):
+    reuniao = get_object_or_404(Reuniao, pk=pk)
+    if request.method == "POST":
+        # update the instance
+        form = ReuniaoForm(request.POST, instance=reuniao)
+        if form.is_valid():
+            reuniao = form.save(commit=False)
+            reuniao.save()
+            # forcing to save the m2m attributte 'cause of commit=False
+            form.save_m2m()
+            return redirect('reunioes')
+    else:
+        form = ReuniaoForm(instance=reuniao)
+    return render(request, 'blog/reuniao_edit.html', {'form': form})

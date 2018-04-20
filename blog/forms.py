@@ -1,7 +1,7 @@
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 
-from .models import Post, Comment
+from .models import Post, Comment, Reuniao
 
 class PostForm(forms.ModelForm):
 
@@ -9,7 +9,9 @@ class PostForm(forms.ModelForm):
         model = Post
         fields = ('title', 'text', 'tags', )
         widgets = {
-            # 'tags': forms.CheckboxSelectMultiple,
+            'tags': forms.CheckboxSelectMultiple(
+                attrs={'class': 'tags',                   
+            }),
         }
         labels = {
             'title': _('Título'),
@@ -27,6 +29,16 @@ class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
         fields = ('author', 'text', )
+
+class ReuniaoForm(forms.ModelForm):
+
+    class Meta:
+        model = Reuniao
+        fields = ('assunto', 'data', 'presenca', )
+        attrs = ({'class': 'selectpicker'})
+        widgets = {
+            'presenca': forms.SelectMultiple(attrs={'class': 'selectpicker show-tick'}),
+        }
             
 
 class ContatoForm(forms.Form):
