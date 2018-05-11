@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail, BadHeaderError
 from .models import Post, Comment, Reuniao
-from .forms import PostForm, CommentForm, ContatoForm, ReuniaoForm
+from .forms import PostForm, CommentForm, ContatoForm, ReuniaoForm, CommentFormSet
 
 # import pdb
 
@@ -26,11 +26,6 @@ def post_detail(request, pk):
     post.save()
 
     return render(request, 'blog/post_detail.html', {'post': post})
-
-
-
-
-
 
 @login_required
 def new_post(request):
@@ -92,17 +87,35 @@ def post_publish(request, pk):
 def add_comment_to_post(request, pk):
     post = get_object_or_404(Post, pk=pk)
     if request.method == "POST":
-        form = CommentForm(request.POST)
-        if form.is_valid():
-            comment = form.save(commit=False)
-            if request.user.is_authenticated():
-                comment.author = request.user.username
-            comment.post = post
-            comment.save()
+        formset = CommentFormSet(request.POST)
+        if formset.is_valid():
+            for form in formset.forms:
+                comment = form.save(commit=False)
+                if request.user.is_authenticated():
+                    comment.author = request.user.username
+                comment.post = post
+                comment.save()
             return redirect('post_detail', pk=post.pk)
     else:
-        form = CommentForm()
-        return render(request, 'blog/add_comment_to_post.html', {'form': form})
+        formset = CommentFormSet()
+
+        return render(request, 'blog/add_comment_to_post.html', {'formset': formset})
+
+
+# def add_comment_to_post(request, pk):
+#     post = get_object_or_404(Post, pk=pk)
+#     if request.method == "POST":
+#         form = CommentForm(request.POST)
+#         if form.is_valid():
+#             comment = form.save(commit=False)
+#             if request.user.is_authenticated():
+#                 comment.author = request.user.username
+#             comment.post = post
+#             comment.save()
+#             return redirect('post_detail', pk=post.pk)
+#     else:
+#         form = CommentForm()
+#         return render(request, 'blog/add_comment_to_post.html', {'form': form})
 
 @login_required
 def comment_approve(request, pk):

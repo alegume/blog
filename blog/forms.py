@@ -1,5 +1,6 @@
 from django import forms
 from django.utils.translation import ugettext_lazy as _
+from django.forms import formset_factory
 
 from .models import Post, Comment, Reuniao
 
@@ -29,6 +30,8 @@ class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
         fields = ('author', 'text', )
+
+CommentFormSet = formset_factory(CommentForm, extra=2, max_num=2)
 
 class ReuniaoForm(forms.ModelForm):
 
