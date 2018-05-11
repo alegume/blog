@@ -27,6 +27,11 @@ def post_detail(request, pk):
 
     return render(request, 'blog/post_detail.html', {'post': post})
 
+
+
+
+
+
 @login_required
 def new_post(request):
     if not request.user.is_authenticated():
