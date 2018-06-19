@@ -1,0 +1,40 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+    <h1>Testes com AJAX</h1>
+    <br />
+    <form method="POST" class="post-form">
+        
+        <div class="row">
+            <div class="col-sm-2">
+                <label for="id_input"><h4>Id:</h4></label>
+            </div>
+            <div class="col-sm-6">
+                <input type="text" name="id" id="id_input" />
+                <input type="hidden" id="url" data-url="{% url 'get_post' pk=0%}" />
+            </div>
+            <div class="col-sm-2">
+                <button type="submit" class="btn btn-warning" id="buscar">Buscar</button>
+            </div>
+        </div>
+        <div class="row">
+        </div>
+        <Hr />
+        <div class="row">
+        <div class="col-sm-10" id="conteudo">
+           <strong>Id:</strong> <span id="id"></span> <br />
+           <strong>Title:</strong> <span id="title"></span> <br />
+           <strong>Text:</strong> <span id="text"></span> <br />
+           <a id="trash" class="btn btn-warning" href="{% url 'ajax_post_delete' pk=0 %}"><span class="glyphicon glyphicon-trash"></span></a>
+        </div>
+        </div>
+    </form>
+        
+{% endblock %}
+
+{% load staticfiles %}
+
+{% block js %}
+<script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+<script src="{% static 'js/blog.js' %}"></script>
+{% endblock %}

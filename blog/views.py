@@ -1,9 +1,10 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
-from django.http import HttpResponseRedirect, Http404, HttpResponseNotFound, HttpResponse
+from django.http import HttpResponseRedirect, Http404, HttpResponseNotFound, HttpResponse, JsonResponse
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail, BadHeaderError
+from django.core.exceptions import ObjectDoesNotExist
 from .models import Post, Comment, Reuniao
 from .forms import PostForm, CommentForm, ContatoForm, ReuniaoForm, CommentFormSet
 
@@ -167,3 +168,34 @@ def reuniao_presenca(request, pk):
     else:
         form = ReuniaoForm(instance=reuniao)
     return render(request, 'blog/reuniao_edit.html', {'form': form})
+
+
+def ajax(request):
+    return render(request, 'blog/ajax.html', {})
+
+def get_qtd_posts(request):
+    pass
+
+def get_post(request, pk):
+    try:
+        post = Post.objects.get(pk=pk)
+        post_json = {
+            'status': 1,
+            'id': post.id,
+            'author': str(post.author),
+            'title': post.title,
+            'visits': post.visits,
+            'text': post.text
+        }
+    except ObjectDoesNotExist:
+        post_json = {'status': 0}
+    return JsonResponse(post_json)
+
+def ajax_post_delete(request, pk):
+    try:
+        post = Post.objects.get(pk=pk)
+        post.delete()
+        post_json = {'status': 1}
+    except ObjectDoesNotExist:
+        post_json = {'status': 0}
+    return JsonResponse(post_json)

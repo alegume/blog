@@ -18,4 +18,7 @@ urlpatterns = [
     url(r'^reuniao/(?P<pk>\d+)/presenca/$', views.reuniao_presenca, name='reuniao_presenca'),
     url(r'^reunioes/$', views.reunioes, name='reunioes'),
 
+    url(r'^ajax/$', views.ajax, name='ajax'),
+    url(r'^get/post/(?P<pk>\d+)', views.get_post, name='get_post'),
+    url(r'^post/delete/post/(?P<pk>\d+)', views.ajax_post_delete, name='ajax_post_delete'),
 ]
